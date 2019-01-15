@@ -16,13 +16,24 @@ public class GameManagerScript : MonoBehaviour
     {
         uiScript = gameObject.AddComponent<UIScript>();
 
-        cells = uiScript.FillWithImages(gridPanel, GRID_DIMENSION, GRID_DIMENSION,
-            emptyCellImage, new Color32(50, 50, 50, 255), "CELL");
+        SetGrid();
     }
 
-    // Update is called once per frame
-    void Update ()
+    private void SetGrid()
     {
-		
-	}
+        cells = uiScript.FillWithImages(gridPanel, GRID_DIMENSION, GRID_DIMENSION,
+            emptyCellImage, DataScript.instance.GetColor(0), "CELL");
+        foreach (GameObject cell in cells)
+        {
+            cell.tag = "CELL";
+            cell.AddComponent<SquareScript>();
+            cell.GetComponent<SquareScript>().SetImage();
+            cell.GetComponent<SquareScript>().SetColor(0);
+        }
+    }
+
+    public void CheckGrid(GameObject block)
+    {
+        Destroy(block);
+    }
 }
