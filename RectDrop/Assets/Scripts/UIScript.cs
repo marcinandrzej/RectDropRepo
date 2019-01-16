@@ -18,7 +18,7 @@ public class UIScript : MonoBehaviour
 	}
 
     public GameObject CreateBlock(string name, Transform parent, Vector2 _sizeDelta, Vector2 _anchorMin, Vector2 _anchorMax,
-       Vector3 _localScale, Vector2 _pivot, Vector2 _anchoredPosition)
+       Vector3 _localScale, Vector2 _pivot, Vector2 _anchoredPosition, Vector3 _localPosition)
     {
         GameObject block = new GameObject(name);
         block.transform.SetParent(parent);
@@ -26,6 +26,7 @@ public class UIScript : MonoBehaviour
         block.AddComponent<RectTransform>();
 
         //Set RectTransform
+        block.GetComponent<RectTransform>().localPosition = _localPosition;
         block.GetComponent<RectTransform>().sizeDelta = _sizeDelta;
         block.GetComponent<RectTransform>().anchorMin = _anchorMin;
         block.GetComponent<RectTransform>().anchorMax = _anchorMax;
@@ -61,7 +62,7 @@ public class UIScript : MonoBehaviour
     }
 
     public GameObject CreateImage(string name, Transform parent, Vector2 _sizeDelta, Vector2 _anchorMin, Vector2 _anchorMax,
-       Vector3 _localScale, Vector2 _pivot, Vector2 _anchoredPosition, Sprite _sprite, Image.Type type, Color32 _color)
+       Vector3 _localScale, Vector2 _pivot, Vector2 _anchoredPosition,Vector3 _localPosition, Sprite _sprite, Image.Type type, Color32 _color)
     {
         GameObject image = new GameObject(name);
         image.transform.SetParent(parent);
@@ -70,6 +71,7 @@ public class UIScript : MonoBehaviour
         image.AddComponent<Image>();
 
         //Set RectTransform
+        image.GetComponent<RectTransform>().localPosition = _localPosition;
         image.GetComponent<RectTransform>().sizeDelta = _sizeDelta;
         image.GetComponent<RectTransform>().anchorMin = _anchorMin;
         image.GetComponent<RectTransform>().anchorMax = _anchorMax;
@@ -125,7 +127,7 @@ public class UIScript : MonoBehaviour
             {
                 GameObject img = CreateImage((name + (j * rowsCount + i).ToString()), panel, new Vector2(imageW, imageH),
                     new Vector2(0, 1), new Vector2(0, 1), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f),
-                   new Vector2(offsetX +(i * imageW), offsetY + (j * -imageH)), image, Image.Type.Sliced, color);
+                   new Vector2(offsetX +(i * imageW), offsetY + (j * -imageH)), new Vector3(0, 0, 0), image, Image.Type.Sliced, color);
                 images[i, j] = img;
             }
         }

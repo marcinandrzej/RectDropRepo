@@ -59,7 +59,7 @@ public class GameManagerScript : MonoBehaviour
     private GameObject CreateBlock(string name, int posIndex)
     {
         GameObject block = uiScript.CreateBlock(name, blocksPanel.transform, new Vector2(2 * squareW, 2* squareH), new Vector2(0.5f, 0.5f),
-            new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), startingPoints[posIndex]);
+            new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), startingPoints[posIndex], new Vector3(0, 0, 0));
         block.AddComponent<BlockScript>();
         block.GetComponent<BlockScript>().SetBlock(this, gridPanel.GetComponent<RectTransform>(), posIndex);
         FillWithSquares(block, Random.Range(0,10));
@@ -72,8 +72,8 @@ public class GameManagerScript : MonoBehaviour
         {
             case 0:
                 GameObject square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-            new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-            Image.Type.Sliced, DataScript.instance.GetColor(0));
+            new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f),
+            new Vector3(0, 0, 0), emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -81,15 +81,15 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 1:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f),
+           new Vector3(0, 0, 0), emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -97,15 +97,15 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 2:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -113,15 +113,15 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 3:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -129,15 +129,15 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 4:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -145,22 +145,22 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 5:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square3", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -168,22 +168,22 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 6:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square3", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -191,22 +191,22 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 7:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square3", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -214,22 +214,22 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 8:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square3", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
@@ -237,29 +237,29 @@ public class GameManagerScript : MonoBehaviour
                 break;
             case 9:
                 square = uiScript.CreateImage("square1", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square2", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, -squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square3", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(-squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
                 block.GetComponent<BlockScript>().AddSquare(square);
                 square = uiScript.CreateImage("square4", block.transform, new Vector2(squareW, squareH), new Vector2(0.5f, 0.5f),
-           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), emptyCellImage,
-           Image.Type.Sliced, DataScript.instance.GetColor(0));
+           new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), new Vector2(squareW / 2.0f, squareH / 2.0f), new Vector3(0, 0, 0),
+           emptyCellImage, Image.Type.Sliced, DataScript.instance.GetColor(0));
                 square.AddComponent<SquareScript>();
                 square.GetComponent<SquareScript>().SetImage();
                 square.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
