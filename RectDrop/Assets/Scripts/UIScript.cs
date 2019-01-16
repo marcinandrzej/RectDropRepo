@@ -17,6 +17,25 @@ public class UIScript : MonoBehaviour
 		
 	}
 
+    public GameObject CreateBlock(string name, Transform parent, Vector2 _sizeDelta, Vector2 _anchorMin, Vector2 _anchorMax,
+       Vector3 _localScale, Vector2 _pivot, Vector2 _anchoredPosition)
+    {
+        GameObject block = new GameObject(name);
+        block.transform.SetParent(parent);
+
+        block.AddComponent<RectTransform>();
+
+        //Set RectTransform
+        block.GetComponent<RectTransform>().sizeDelta = _sizeDelta;
+        block.GetComponent<RectTransform>().anchorMin = _anchorMin;
+        block.GetComponent<RectTransform>().anchorMax = _anchorMax;
+        block.GetComponent<RectTransform>().localScale = _localScale;
+        block.GetComponent<RectTransform>().pivot = _pivot;
+        block.GetComponent<RectTransform>().anchoredPosition = _anchoredPosition;
+
+        return block;
+    }
+
     public GameObject CreateButton(string name, Transform parent, Vector2 _sizeDelta, Vector2 _anchorMin, Vector2 _anchorMax,
         Vector3 _localScale, Vector2 _pivot, Vector2 _anchoredPosition, Sprite _sprite, Image.Type type)
     {

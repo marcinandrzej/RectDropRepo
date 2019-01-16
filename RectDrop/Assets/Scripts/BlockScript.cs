@@ -6,11 +6,26 @@ using UnityEngine.EventSystems;
 
 public class BlockScript : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    public GameManagerScript gameMan;
-    public RectTransform panel;
-    public List<GameObject> squares;
+    private GameManagerScript gameMan;
+    private RectTransform gridPanel;
+    private List<GameObject> squares;
 
     private Vector3 position;
+    private int startPosition;
+
+    public void SetBlock(GameManagerScript _gmeMan, RectTransform _gridPanel, int _startPosition)
+    {
+        squares = new List<GameObject>();
+        gameMan = _gmeMan;
+        gridPanel = _gridPanel;
+        startPosition = _startPosition;
+        position = gameObject.transform.position;
+    }
+
+    public void AddSquare(GameObject square)
+    {
+        squares.Add(square);
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -19,7 +34,7 @@ public class BlockScript : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (IsInGrid() == true)
+        if (IsInGrid())
         {
             bool play = true;
             for (int i = 0; i < squares.Count; i++)
@@ -29,17 +44,15 @@ public class BlockScript : MonoBehaviour, IDragHandler, IEndDragHandler
             }
             if (!play)
             {
-                Debug.Log("!play");
                 gameObject.transform.position = position;
             }
             else
             {
-                Debug.Log("play");
                 for (int i = 0; i < squares.Count; i++)
                 {
                     MarkCell(squares[i]);
                 }
-                gameMan.CheckGrid(gameObject);
+                gameMan.CheckGrid(gameObject, startPosition);
             }
         }
         else
@@ -52,7 +65,7 @@ public class BlockScript : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         for (int i = 0; i < squares.Count; i++)
         {
-            if (!RectTransformUtility.RectangleContainsScreenPoint(panel, squares[i].transform.position))
+            if (!RectTransformUtility.RectangleContainsScreenPoint(gridPanel, squares[i].transform.position))
                 return false;
         }
         return true;
@@ -100,20 +113,4 @@ public class BlockScript : MonoBehaviour, IDragHandler, IEndDragHandler
             }
         }
     }
-
-    // Use this for initialization
-    void Start ()
-    {
-        position = gameObject.transform.position;
-        foreach (GameObject go in squares)
-        {
-            go.GetComponent<SquareScript>().SetImage();
-            go.GetComponent<SquareScript>().SetColor(Random.Range(1, DataScript.instance.GetColorCount() - 1));
-        }	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
