@@ -108,6 +108,7 @@ public class BlockScript : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 if (result.gameObject.tag == "CELL")
                 {
+                    gameMan.AddToCheckList(result.gameObject);
                     result.gameObject.GetComponent<SquareScript>().SetColor(square.gameObject.GetComponent<SquareScript>().GetColorIndex());
                 }
             }

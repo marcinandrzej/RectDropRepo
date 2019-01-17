@@ -11,7 +11,8 @@ public class GameManagerScript : MonoBehaviour
     private Vector2[] startingPoints;
     private float squareW;
     private float squareH;
-    private List<GameObject> blocksList;
+    private List<GameObject> cellsTocheckList;
+    private List<GameObject> cellsToResetList;
 
     public Sprite emptyCellImage;
     public Transform gridPanel;
@@ -28,20 +29,26 @@ public class GameManagerScript : MonoBehaviour
 
     private void SetGrid()
     {
+        cellsTocheckList = new List<GameObject>();
         cells = uiScript.FillWithImages(gridPanel, GRID_DIMENSION, GRID_DIMENSION,
             emptyCellImage, DataScript.instance.GetColor(0), "CELL");
-        foreach (GameObject cell in cells)
+        for (int _x = 0; _x < cells.GetLength(0); _x++)
         {
-            cell.tag = "CELL";
-            cell.AddComponent<SquareScript>();
-            cell.GetComponent<SquareScript>().SetImage();
-            cell.GetComponent<SquareScript>().SetColor(0);
+            for (int _y = 0; _y < cells.GetLength(1); _y++)
+            {
+                cells[_x, _y].tag = "CELL";
+                cells[_x, _y].AddComponent<SquareScript>();
+                cells[_x, _y].GetComponent<SquareScript>().SetImage();
+                cells[_x, _y].GetComponent<SquareScript>().SetColor(0);
+                cells[_x, _y].GetComponent<SquareScript>().X = _x;
+                cells[_x, _y].GetComponent<SquareScript>().Y = _y;
+            }
         }
+
     }
 
     private void SetBlocks()
     {
-        blocksList = new List<GameObject>();
         squareW = Mathf.Abs(gridPanel.gameObject.GetComponent<RectTransform>().sizeDelta.x) / (float)GRID_DIMENSION;
         squareH = Mathf.Abs(gridPanel.gameObject.GetComponent<RectTransform>().sizeDelta.y) / (float)GRID_DIMENSION;
 
@@ -52,7 +59,7 @@ public class GameManagerScript : MonoBehaviour
 
         for (int i = 0; i < startingPoints.Length; i++)
         {
-            blocksList.Add(CreateBlock("Block" + (i + 1).ToString(), i));
+           CreateBlock("Block" + (i + 1).ToString(), i);
         }
     }
 
@@ -270,9 +277,110 @@ public class GameManagerScript : MonoBehaviour
         }
     }
 
+    public void AddToCheckList(GameObject _cell)
+    {
+        cellsTocheckList.Add(_cell);
+    }
+
     public void CheckGrid(GameObject block, int posIndex)
     {
         Destroy(block);
         CreateBlock("Block" + (posIndex + 1).ToString(), posIndex);
+
+        cellsToResetList = new List<GameObject>();
+
+        for (int i = 0; i < cellsTocheckList.Count; i++)
+        {
+            List<GameObject> horizontalList = new List<GameObject>();
+            List<GameObject> VerticalList = new List<GameObject>();
+
+            CheckHorizontalPlus(cellsTocheckList[i].GetComponent<SquareScript>().GetColorIndex(), cellsTocheckList[i].GetComponent<SquareScript>().X,
+                cellsTocheckList[i].GetComponent<SquareScript>().Y, horizontalList);
+            CheckHorizontalMinus(cellsTocheckList[i].GetComponent<SquareScript>().GetColorIndex(), cellsTocheckList[i].GetComponent<SquareScript>().X,
+                cellsTocheckList[i].GetComponent<SquareScript>().Y, horizontalList);
+            CheckVerticalMinus(cellsTocheckList[i].GetComponent<SquareScript>().GetColorIndex(), cellsTocheckList[i].GetComponent<SquareScript>().X,
+                cellsTocheckList[i].GetComponent<SquareScript>().Y, VerticalList);
+            CheckVerticalPlus(cellsTocheckList[i].GetComponent<SquareScript>().GetColorIndex(), cellsTocheckList[i].GetComponent<SquareScript>().X,
+                cellsTocheckList[i].GetComponent<SquareScript>().Y, VerticalList);
+
+            if (horizontalList.Count >= 3)
+            {
+                for (int j = 0; j < horizontalList.Count; j++)
+                {
+                    if(!cellsToResetList.Contains(horizontalList[j]))
+                        cellsToResetList.Add(horizontalList[j]);
+                }
+            }
+
+            if (VerticalList.Count >= 3)
+            {
+                for (int g = 0; g < VerticalList.Count; g++)
+                {
+                    if (!cellsToResetList.Contains(VerticalList[g]))
+                        cellsToResetList.Add(VerticalList[g]);
+                }
+            }
+        }
+
+        if (cellsToResetList.Count > 0)
+        {
+            foreach (GameObject _cell in cellsToResetList)
+            {
+                _cell.GetComponent<SquareScript>().SetColor(0);
+            }
+            cellsTocheckList = new List<GameObject>();
+        }
+    }
+
+    private void CheckHorizontalPlus(int _colorIndex, int _x, int _y, List<GameObject> checkList)
+    {
+        if (_x >= 0 && _x < GRID_DIMENSION)
+        {
+            if (cells[_x, _y].GetComponent<SquareScript>().GetColorIndex() == _colorIndex)
+            {
+                if(!checkList.Contains(cells[_x, _y]))
+                    checkList.Add(cells[_x, _y]);
+                CheckHorizontalPlus(_colorIndex, _x + 1, _y, checkList);
+            }
+        }
+    }
+
+    private void CheckHorizontalMinus(int _colorIndex, int _x, int _y, List<GameObject> checkList)
+    {
+        if (_x >= 0 && _x < GRID_DIMENSION)
+        {
+            if (cells[_x, _y].GetComponent<SquareScript>().GetColorIndex() == _colorIndex)
+            {
+                if (!checkList.Contains(cells[_x, _y]))
+                    checkList.Add(cells[_x, _y]);
+                CheckHorizontalMinus(_colorIndex, _x - 1, _y, checkList);
+            }
+        }
+    }
+
+    private void CheckVerticalMinus(int _colorIndex, int _x, int _y, List<GameObject> checkList)
+    {
+        if (_y >= 0 && _y < GRID_DIMENSION)
+        {
+            if (cells[_x, _y].GetComponent<SquareScript>().GetColorIndex() == _colorIndex)
+            {
+                if (!checkList.Contains(cells[_x, _y]))
+                    checkList.Add(cells[_x, _y]);
+                CheckVerticalMinus(_colorIndex, _x, _y -1, checkList);
+            }
+        }
+    }
+
+    private void CheckVerticalPlus(int _colorIndex, int _x, int _y, List<GameObject> checkList)
+    {
+        if (_y >= 0 && _y < GRID_DIMENSION)
+        {
+            if (cells[_x, _y].GetComponent<SquareScript>().GetColorIndex() == _colorIndex)
+            {
+                if (!checkList.Contains(cells[_x, _y]))
+                    checkList.Add(cells[_x, _y]);
+                CheckVerticalPlus(_colorIndex, _x, _y + 1, checkList);
+            }
+        }
     }
 }
