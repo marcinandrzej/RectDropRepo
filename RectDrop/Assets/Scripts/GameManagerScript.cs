@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameManagerScript : MonoBehaviour
 {
+    private const float MAX_TIME = 60.0f;
+    private const float TIME_PRE_SQUARE = 1.0f;
     private const int GRID_DIMENSION = 9;
     private GameObject[,] cells;
     private UIScript uiScript;
@@ -13,10 +15,12 @@ public class GameManagerScript : MonoBehaviour
     private float squareH;
     private List<GameObject> cellsTocheckList;
     private List<GameObject> cellsToResetList;
+    private List<GameObject> blocksInGame;
 
     public Sprite emptyCellImage;
     public Transform gridPanel;
     public GameObject blocksPanel;
+    public TimeScript timeScript;
 
     // Use this for initialization
     void Start()
@@ -25,6 +29,13 @@ public class GameManagerScript : MonoBehaviour
 
         SetGrid();
         SetBlocks();
+        timeScript.StartClock(MAX_TIME);
+    }
+
+    void Update()
+    {
+        if (!timeScript.UpdateClock(Time.deltaTime))
+            End();
     }
 
     private void SetGrid()
@@ -49,6 +60,7 @@ public class GameManagerScript : MonoBehaviour
 
     private void SetBlocks()
     {
+        blocksInGame = new List<GameObject>();
         squareW = Mathf.Abs(gridPanel.gameObject.GetComponent<RectTransform>().sizeDelta.x) / (float)GRID_DIMENSION;
         squareH = Mathf.Abs(gridPanel.gameObject.GetComponent<RectTransform>().sizeDelta.y) / (float)GRID_DIMENSION;
 
@@ -59,7 +71,7 @@ public class GameManagerScript : MonoBehaviour
 
         for (int i = 0; i < startingPoints.Length; i++)
         {
-           CreateBlock("Block" + (i + 1).ToString(), i);
+            blocksInGame.Add(CreateBlock("Block" + (i + 1).ToString(), i));
         }
     }
 
@@ -284,8 +296,9 @@ public class GameManagerScript : MonoBehaviour
 
     public void CheckGrid(GameObject block, int posIndex)
     {
+        blocksInGame.Remove(block);
         Destroy(block);
-        CreateBlock("Block" + (posIndex + 1).ToString(), posIndex);
+        blocksInGame.Add(CreateBlock("Block" + (posIndex + 1).ToString(), posIndex));
 
         cellsToResetList = new List<GameObject>();
 
@@ -328,6 +341,7 @@ public class GameManagerScript : MonoBehaviour
             {
                 _cell.GetComponent<SquareScript>().SetColor(0);
             }
+            timeScript.AddTime((float)cellsToResetList.Count * TIME_PRE_SQUARE);
             cellsTocheckList = new List<GameObject>();
         }
     }
@@ -381,6 +395,14 @@ public class GameManagerScript : MonoBehaviour
                     checkList.Add(cells[_x, _y]);
                 CheckVerticalPlus(_colorIndex, _x, _y + 1, checkList);
             }
+        }
+    }
+
+    private void End()
+    {
+        foreach (GameObject block in blocksInGame)
+        {
+            Destroy(block);
         }
     }
 }
