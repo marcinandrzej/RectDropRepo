@@ -82,8 +82,9 @@ public class GameManagerScript : MonoBehaviour
 
     private GameObject CreateBlock(string name, int posIndex)
     {
-        GameObject block = uiScript.CreateBlock(name, blocksPanel.transform, new Vector2(2 * squareW, 2* squareH), new Vector2(0.5f, 0.5f),
-            new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), startingPoints[posIndex], new Vector3(0, 0, 0));
+        GameObject block = uiScript.CreateImage(name, blocksPanel.transform, new Vector2(2 * squareW, 2* squareH), new Vector2(0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f), new Vector3(1, 1, 1), new Vector2(0.5f, 0.5f), startingPoints[posIndex], new Vector3(0, 0, 0),
+            emptyCellImage, Image.Type.Sliced, new Color32(0,0,0,0));
         block.AddComponent<BlockScript>();
         block.GetComponent<BlockScript>().SetBlock(this, gridPanel.GetComponent<RectTransform>(), posIndex);
         FillWithSquares(block, Random.Range(0,10));
@@ -360,6 +361,7 @@ public class GameManagerScript : MonoBehaviour
             }
             timeScript.AddTime((float)cellsToResetList.Count * TIME_PRE_SQUARE);
             scoreScript.AddScore(cellsToResetList.Count);
+            powersScript.AddPP(cellsToResetList.Count);
             cellsTocheckList = new List<GameObject>();
         }
     }
@@ -422,5 +424,39 @@ public class GameManagerScript : MonoBehaviour
         {
             Destroy(block);
         }
+        powersScript.LockPowers();
+    }
+
+    public void GravityFall()
+    {
+        for (int x = 0; x < GRID_DIMENSION; x++)
+        {
+            for (int y = (GRID_DIMENSION - 1); y > 0; y--)
+            {
+                while (cells[x, y].GetComponent<SquareScript>().GetColorIndex() == 0 && CanFall(x, y))
+                {
+                    Fall(x, y);
+                }
+            }
+        }
+    }
+
+    private bool CanFall(int x, int y)
+    {
+        for (int i = 0; i < y; i++)
+        {
+            if (cells[x, i].GetComponent<SquareScript>().GetColorIndex() != 0)
+                return true;
+        }
+        return false;
+    }
+
+    private void Fall(int x, int y)
+    {
+        for (int i = y; i > 0; i--)
+        {
+            cells[x, i].GetComponent<SquareScript>().SetColor(cells[x, i - 1].GetComponent<SquareScript>().GetColorIndex());
+        }
+        cells[x, 0].GetComponent<SquareScript>().SetColor(0);
     }
 }

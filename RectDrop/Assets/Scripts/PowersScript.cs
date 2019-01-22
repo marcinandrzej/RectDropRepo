@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PowersScript : MonoBehaviour
 {
+    public Image powerImage;
+    public Text powerTxt;
     public Button[] powerButtons;
     public Sprite[] powerSprites;
     public int[] powerCost;
@@ -25,9 +27,17 @@ public class PowersScript : MonoBehaviour
 		
 	}
 
-    private void LockPowers()
+    public void LockPowers()
     {
-        for (int i = 0; i < powerCost.Length; i++)
+        for (int i = 0; i < powerButtons.Length; i++)
+        {
+            powerButtons[i].enabled = false;
+        }
+    }
+
+    private void UpdatePowers()
+    {
+        for (int i = 0; i < powerButtons.Length; i++)
         {
             if (powerCost[i] > powerPoints)
             {
@@ -44,10 +54,10 @@ public class PowersScript : MonoBehaviour
 
     public void SetUp(int _maxPowerPoints, GameManagerScript _gameMan)
     {
-        powerPoints = 100;
+        powerPoints = 0;
         maxPowerPoints = _maxPowerPoints;
         gameMan = _gameMan;
-        LockPowers(); 
+        UpdatePowers(); 
         powerButtons[0].onClick.AddListener(delegate { ClearColor();});
         powerButtons[1].onClick.AddListener(delegate { AddTime(1, 10.0f); });
         powerButtons[2].onClick.AddListener(delegate { Gravity(); });
@@ -56,16 +66,32 @@ public class PowersScript : MonoBehaviour
     public void ClearColor()
     {
         gameMan.EliminateColor(Random.Range(1, DataScript.instance.GetColorCount()));
+        AddPP(-powerCost[0]);
     }
 
     public void AddTime(int index, float deltatime)
     {
         gameMan.timeScript.AddTime(deltatime);
         powerPoints -= powerCost[index];
+        AddPP(-powerCost[1]);
     }
 
     public void Gravity()
     {
+        gameMan.GravityFall();
+        AddPP(-powerCost[2]);
+    }
 
+    public void AddPP(int deltaPP)
+    {
+        powerPoints = Mathf.Max(Mathf.Min(powerPoints + deltaPP, maxPowerPoints), 0);
+        UpdatePP();
+    }
+
+    public void UpdatePP()
+    {
+        powerImage.fillAmount = (float)powerPoints / (float)maxPowerPoints;
+        powerTxt.text = powerPoints.ToString() + "/" + maxPowerPoints.ToString();
+        UpdatePowers();
     }
 }
