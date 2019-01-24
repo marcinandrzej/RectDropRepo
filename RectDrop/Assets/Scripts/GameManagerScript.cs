@@ -17,6 +17,7 @@ public class GameManagerScript : MonoBehaviour
     private List<GameObject> cellsTocheckList;
     private List<GameObject> cellsToResetList;
     private List<GameObject> blocksInGame;
+    private bool stop;
 
     public Sprite emptyCellImage;
     public Transform gridPanel;
@@ -24,22 +25,38 @@ public class GameManagerScript : MonoBehaviour
     public TimeScript timeScript;
     public ScoreScript scoreScript;
     public PowersScript powersScript;
+    public MenuScript menuScript;
+    public RecordScript recordScript;
+
+    public bool Stop
+    {
+        get
+        {
+            return stop;
+        }
+
+        set
+        {
+            stop = value;
+        }
+    }
 
     // Use this for initialization
     void Start()
     {
         uiScript = gameObject.AddComponent<UIScript>();
-
+        recordScript.LoadRecord();
         SetGrid();
         SetBlocks();
         scoreScript.SetUp();
         powersScript.SetUp(MAX_PP, this);
         timeScript.StartClock(MAX_TIME);
+        Stop = false;
     }
 
     void Update()
     {
-        if (!timeScript.UpdateClock(Time.deltaTime))
+        if (!Stop && !timeScript.UpdateClock(Time.deltaTime))
             End();
     }
 
@@ -425,6 +442,11 @@ public class GameManagerScript : MonoBehaviour
             Destroy(block);
         }
         powersScript.LockPowers();
+        menuScript.BlockMenu();
+        if (recordScript.IsRecord(scoreScript.GetScore()))
+            recordScript.SaveRecord(scoreScript.GetScore());
+        menuScript.OnOffMenu();
+        stop = true;
     }
 
     public void GravityFall()

@@ -72,7 +72,6 @@ public class PowersScript : MonoBehaviour
     public void AddTime(int index, float deltatime)
     {
         gameMan.timeScript.AddTime(deltatime);
-        powerPoints -= powerCost[index];
         AddPP(-powerCost[1]);
     }
 
